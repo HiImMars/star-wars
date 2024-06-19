@@ -1,16 +1,9 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactFlow, { Node, Edge } from "react-flow-renderer";
-
-interface Hero {
-  name: string;
-  films: string[];
-}
-
-interface Film {
-  title: string;
-  starships: string[];
-}
+import { Hero, IFilm } from "@/types";
 
 interface HeroDetailProps {
   hero: Hero;
@@ -20,63 +13,78 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
 
+  const { films, starships: heroStarships, name } = hero || {};
+
   useEffect(() => {
     const fetchHeroDetails = async () => {
+      if (!films) return;
+
       const filmsResponse = await Promise.all(
-        hero.films.map((url) => axios.get(url))
+        films.map((endpoint) =>
+          axios.get<IFilm>(`https://sw-api.starnavi.io/films/${endpoint}/`)
+        )
       );
-      const films: Film[] = filmsResponse.map((response) => response.data);
+      const filmsData: IFilm[] = filmsResponse.map((response) => response.data);
 
-      const newNodes: Node[] = [
-        {
-          id: hero.name,
-          type: "input",
-          data: { label: hero.name },
-          position: { x: 0, y: 0 },
-        },
-      ];
+      const filmsStarshipsArray = filmsData.map((item) => item.starships);
 
-      const newEdges: Edge[] = [];
+      console.log(
+        filmsStarshipsArray
+          .map((arr) => arr.filter((value) => heroStarships?.includes(value)))
+          .flat()
+      );
 
-      films.forEach((film, index) => {
-        const filmNode = {
-          id: film.title,
-          data: { label: film.title },
-          position: { x: 200, y: 100 * index },
-        };
-        newNodes.push(filmNode);
-        newEdges.push({
-          id: `e${hero.name}-${film.title}`,
-          source: hero.name,
-          target: film.title,
-        });
+      // const newNodes: Node[] = [
+      //   {
+      //     id: name,
+      //     type: "input",
+      //     data: { label: hero.name },
+      //     position: { x: 0, y: 0 },
+      //   },
+      // ];
 
-        film.starships.forEach((url, starshipIndex) => {
-          axios.get(url).then((starshipResponse) => {
-            const starship = starshipResponse.data;
-            const starshipNode = {
-              id: starship.name,
-              data: { label: starship.name },
-              position: { x: 400, y: 100 * starshipIndex },
-            };
-            newNodes.push(starshipNode);
-            newEdges.push({
-              id: `e${film.title}-${starship.name}`,
-              source: film.title,
-              target: starship.name,
-            });
-          });
-        });
-      });
+      // const newEdges: Edge[] = [];
 
-      setNodes(newNodes);
-      setEdges(newEdges);
+      // filmsData.forEach((film, index) => {
+      //   const filmNode = {
+      //     id: film.title,
+      //     data: { label: film.title },
+      //     position: { x: 200, y: 100 * index },
+      //   };
+      //   newNodes.push(filmNode);
+
+      //   newEdges.push({
+      //     id: `e${hero.name}-${film.title}`,
+      //     source: hero.name,
+      //     target: film.title,
+      //   });
+
+      //   starships.forEach((url, starshipIndex) => {
+      //     axios.get(url).then((starshipResponse) => {
+      //       const starship = starshipResponse.data;
+      //       const starshipNode = {
+      //         id: starship.name,
+      //         data: { label: starship.name },
+      //         position: { x: 400, y: 100 * starshipIndex },
+      //       };
+      //       newNodes.push(starshipNode);
+      //       newEdges.push({
+      //         id: `e${film.title}-${starship.name}`,
+      //         source: film.title,
+      //         target: starship.name,
+      //       });
+      //     });
+      //   });
+      // });
+
+      // setNodes(newNodes);
+      // setEdges(newEdges);
     };
 
     fetchHeroDetails();
   }, [hero]);
 
-  return <ReactFlow elements={[...nodes, ...edges]} />;
+  return <ReactFlow nodes={nodes} edges={edges} />;
 };
 
 export default HeroDetail;

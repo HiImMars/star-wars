@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-interface Hero {
-  name: string;
-  films: string[];
-}
+import { Hero } from "@/types";
 
 interface HeroListProps {
   onSelectHero: (hero: Hero) => void;
@@ -18,10 +14,11 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
   useEffect(() => {
     const fetchHeroes = async () => {
       const response = await axios.get(
-        `https://sw-api.starnavi.io/api/people?page=${page}`
+        `https://sw-api.starnavi.io/people/?page=${page}`
       );
-      setHeroes((prevHeroes) => [...prevHeroes, ...response.data.results]);
-      setHasMore(response.data.next !== null);
+
+      setHeroes((prevState) => [...prevState, ...response.data.results]);
+      setHasMore(response?.data?.next !== null);
     };
 
     fetchHeroes();
@@ -36,11 +33,12 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
   return (
     <div>
       <ul>
-        {heroes.map((hero) => (
-          <li key={hero.name} onClick={() => onSelectHero(hero)}>
-            {hero.name}
-          </li>
-        ))}
+        {Boolean(heroes?.length) &&
+          heroes.map((hero, idx) => (
+            <li key={idx} onClick={() => onSelectHero(hero)}>
+              {hero.name}
+            </li>
+          ))}
       </ul>
       {hasMore && <button onClick={loadMore}>Load More</button>}
     </div>
