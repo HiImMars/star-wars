@@ -10,3 +10,8 @@ export interface IFilm {
   title: string;
   starships: number[];
 }
+
+export interface IStarship {
+  name: string;
+  id: number;
+}

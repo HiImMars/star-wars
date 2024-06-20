@@ -11,11 +11,11 @@ const Home: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold">Star Wars Heroes</h1>
-      <div className="flex">
-        <div className="w-1/2">
+      <div className="flex flex-col">
+        <div className="w-full">
           <HeroList onSelectHero={setSelectedHero} />
         </div>
-        <div className="w-1/2">
+        <div className="w-full">
           {selectedHero && <HeroDetail hero={selectedHero} />}
         </div>
       </div>

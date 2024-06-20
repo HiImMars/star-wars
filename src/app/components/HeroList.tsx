@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Hero } from "@/types";
 
@@ -10,6 +10,7 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
   const [heroes, setHeroes] = useState<Hero[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const isMounted = useRef(false);
 
   useEffect(() => {
     const fetchHeroes = async () => {
@@ -17,9 +18,15 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
         `https://sw-api.starnavi.io/people/?page=${page}`
       );
 
-      setHeroes((prevState) => [...prevState, ...response.data.results]);
+      // setHeroes((prevState) => [...prevState, ...response.data.results]);
+      setHeroes(() => [...response.data.results]);
       setHasMore(response?.data?.next !== null);
     };
+
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
 
     fetchHeroes();
   }, [page]);
@@ -40,7 +47,11 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
             </li>
           ))}
       </ul>
-      {hasMore && <button onClick={loadMore}>Load More</button>}
+      {hasMore && (
+        <button className="border border-black" onClick={loadMore}>
+          Load More
+        </button>
+      )}
     </div>
   );
 };
