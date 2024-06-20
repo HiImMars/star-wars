@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Hero } from "@/types";
+import { Pagination } from "./Pagination";
 
 interface HeroListProps {
   onSelectHero: (hero: Hero) => void;
@@ -9,18 +10,44 @@ interface HeroListProps {
 const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
   const [heroes, setHeroes] = useState<Hero[]>([]);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>("");
+
   const isMounted = useRef(false);
+
+  // useEffect(() => {
+  //   const fetchHeroes = async () => {
+  //     const response = await axios.get(
+  //       `https://sw-api.starnavi.io/people/?page=${page}`
+  //     );
+
+  //     setHeroes(() => [...response.data.results]);
+  //   };
+
+  //   if (!isMounted.current) {
+  //     isMounted.current = true;
+  //     return;
+  //   }
+
+  //   fetchHeroes();
+  // }, [page]);
 
   useEffect(() => {
     const fetchHeroes = async () => {
-      const response = await axios.get(
-        `https://sw-api.starnavi.io/people/?page=${page}`
-      );
+      setIsLoading(true);
+      setError(null);
 
-      // setHeroes((prevState) => [...prevState, ...response.data.results]);
-      setHeroes(() => [...response.data.results]);
-      setHasMore(response?.data?.next !== null);
+      try {
+        const response = await axios.get(
+          `https://sw-api.starnavi.io/people/?page=${page}`
+        );
+        setHeroes(response.data.results);
+      } catch (err) {
+        setError("Failed to fetch heroes");
+        alert(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     if (!isMounted.current) {
@@ -31,11 +58,9 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
     fetchHeroes();
   }, [page]);
 
-  const loadMore = () => {
-    if (hasMore) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
+  if (isLoading) return <div>Loading...</div>;
+
+  const pageCount = Math.ceil(82 / 10);
 
   return (
     <div>
@@ -47,10 +72,8 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
             </li>
           ))}
       </ul>
-      {hasMore && (
-        <button className="border border-black" onClick={loadMore}>
-          Load More
-        </button>
+      {!isLoading && (
+        <Pagination page={page} pageCount={pageCount} setPage={setPage} />
       )}
     </div>
   );

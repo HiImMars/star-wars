@@ -265,7 +265,8 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
           id: heroName,
           type: "input",
           data: { label: `Hero: ${heroName}` },
-          position: { x: 0, y: 25 },
+          position: { x: 250, y: 25 },
+          draggable: false,
         },
       ];
 
@@ -277,7 +278,8 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
         const filmNode = {
           id: film.title,
           data: { label: `Film: ${film.title}` },
-          position: { x: 150, y: 125 + index * 150 },
+          position: { x: 100 + index * 170, y: 125 },
+          draggable: false,
         };
         newNodes.push(filmNode);
 
@@ -302,11 +304,15 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
 
         const starships = await Promise.all(starshipPromises);
 
+        // Counter for positioning starships
+        let starshipIndex = 0;
+
         for (const starship of starships) {
           const starshipNode = {
             id: starship.name,
             data: { label: `Starship: ${starship.name}` },
-            position: { x: 50, y: 125 + index * 150 },
+            position: { x: 50 + starshipIndex * 180, y: 250 },
+            draggable: false,
           };
           newNodes.push(starshipNode);
           newEdges.push({
@@ -314,6 +320,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
             source: film.title,
             target: starship.name,
           });
+          starshipIndex++;
         }
       }
 
