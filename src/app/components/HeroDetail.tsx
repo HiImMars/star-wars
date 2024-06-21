@@ -228,7 +228,7 @@ import ReactFlow, {
   Node,
   Edge,
 } from "react-flow-renderer";
-import { Hero, IFilm, IStarship } from "@/types";
+import { Hero, IFilm, IStarship } from "../../types";
 
 interface HeroDetailProps {
   hero: Hero;
@@ -247,7 +247,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
       if (!films || !heroName) return;
 
       const filmsResponse = await Promise.all(
-        films.map((endpoint) =>
+        films.map((endpoint: number) =>
           axios.get<IFilm>(`https://sw-api.starnavi.io/films/${endpoint}/`)
         )
       );
@@ -256,7 +256,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
       const filmsStarshipsArray = filmsData.map((item) => item.starships);
 
       const usedStarshipsByHero = filmsStarshipsArray.map((arr) =>
-        arr.filter((value) => heroStarships?.includes(value))
+        arr.filter((value: number) => heroStarships?.includes(value))
       );
 
       // Create nodes and edges
@@ -291,7 +291,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
 
         // Fetch starship details
         const starshipPromises = usedStarshipsByHero[index].map(
-          async (starshipId) => {
+          async (starshipId: number) => {
             if (!fetchedStarships.current[starshipId]) {
               const response = await axios.get<IStarship>(
                 `https://sw-api.starnavi.io/starships/${starshipId}/`

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Hero } from "@/types";
+import { Hero } from "../../types";
 import { Pagination } from "./Pagination";
 
 interface HeroListProps {
@@ -14,23 +14,6 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
   const [error, setError] = useState<string | null>("");
 
   const isMounted = useRef(false);
-
-  // useEffect(() => {
-  //   const fetchHeroes = async () => {
-  //     const response = await axios.get(
-  //       `https://sw-api.starnavi.io/people/?page=${page}`
-  //     );
-
-  //     setHeroes(() => [...response.data.results]);
-  //   };
-
-  //   if (!isMounted.current) {
-  //     isMounted.current = true;
-  //     return;
-  //   }
-
-  //   fetchHeroes();
-  // }, [page]);
 
   useEffect(() => {
     const fetchHeroes = async () => {
