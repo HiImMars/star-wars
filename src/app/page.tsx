@@ -10,8 +10,14 @@ const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold">Star Wars Heroes</h1>
-      <div className="flex flex-col">
+      <h1 className="text-2xl text-center font-bold mb-8">
+        Star Wars Heroes
+        <br />
+        <span className="text-sm text-orangeAccent font-medium">
+          (сlick on a hero's name to see details)
+        </span>
+      </h1>
+      <div className="flex flex-col gap-5">
         <div className="w-full">
           <HeroList onSelectHero={setSelectedHero} />
         </div>

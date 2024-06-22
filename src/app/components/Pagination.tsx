@@ -3,9 +3,9 @@ import ReactPaginate, { ReactPaginateProps } from "react-paginate";
 
 const DEFAULT_PAGE_CLASSNAME = "text-lg";
 const DEFAULT_PAGE_LINK_CLASSNAME =
-  "px-3 py-2 border border-opacity-50 rounded-lg hover:bg-orange-base hover:text-white hover:border-orange-base hover:opacity-100";
+  "px-3 py-2 border border-opacity-50 rounded-lg hover:bg-white hover:text-orangeAccent hover:border-orangeAccent hover:opacity-100";
 const DEFAULT_DISABLED_LINK_CLASSNAME =
-  "px-3 py-2 text-lg border border-opacity-50 rounded-lg hover:bg-orange-base hover:text-white hover:border-orange-base";
+  "px-3 py-2 text-lg border border-opacity-50 rounded-lg hover:bg-white hover:text-orangeAccent hover:border-orangeAccent";
 const DEFAULT_DISABLED_NAV_LINK_CLASSNAME = "opacity-50 pointer-events-none";
 
 interface Props {
@@ -36,7 +36,7 @@ export const Pagination: FC<Props> = ({
       breakClassName={DEFAULT_PAGE_CLASSNAME}
       breakLinkClassName={DEFAULT_PAGE_LINK_CLASSNAME}
       activeClassName="default:opacity-100"
-      activeLinkClassName="bg-orange-base text-white border-none"
+      activeLinkClassName="bg-white text-orangeAccent border-orangeAccent"
       previousLinkClassName={DEFAULT_DISABLED_LINK_CLASSNAME}
       nextLinkClassName={DEFAULT_DISABLED_LINK_CLASSNAME}
       disabledLinkClassName={DEFAULT_DISABLED_NAV_LINK_CLASSNAME}
