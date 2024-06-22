@@ -16,6 +16,13 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Testing
+
+To run test use:
+```bash
+npm test
+```
+
 ## Technologies used:
 
 - Next.js
@@ -25,3 +32,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Axios
 - Jest
 - React Paginate
+- React Loader Spinner
