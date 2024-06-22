@@ -24,9 +24,6 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>("");
 
-  // Ref to track component mounting status
-  const isMounted = useRef(false);
-
   // Ref to store fetched starship details to avoid redundant API calls
   const fetchedStarships = useRef<{ [key: string]: IStarship }>({});
 
@@ -137,11 +134,6 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
         setIsLoading(false);
       }
     };
-
-    if (!isMounted.current) {
-      isMounted.current = true;
-      return;
-    }
 
     fetchHeroDetails();
   }, [hero, heroName, films, heroStarships, setEdges, setNodes]);

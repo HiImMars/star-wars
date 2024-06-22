@@ -21,9 +21,6 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
   // State to store any error message
   const [error, setError] = useState<string | null>("");
 
-  // Ref to track component mounting status
-  const isMounted = useRef(false);
-
   useEffect(() => {
     const fetchHeroes = async () => {
       setIsLoading(true);
@@ -44,11 +41,6 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
         setIsLoading(false);
       }
     };
-
-    if (!isMounted.current) {
-      isMounted.current = true;
-      return;
-    }
 
     fetchHeroes();
   }, [page, error]);
