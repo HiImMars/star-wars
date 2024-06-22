@@ -144,7 +144,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({ hero }) => {
     }
 
     fetchHeroDetails();
-  }, [hero, heroName, films]);
+  }, [hero, heroName, films, heroStarships, setEdges, setNodes]);
 
   // Memoize nodes and edges to optimize performance
   const memoizedNodes = useMemo(() => nodes, [nodes]);

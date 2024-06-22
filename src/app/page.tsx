@@ -14,7 +14,7 @@ const Home: React.FC = () => {
         Star Wars Heroes
         <br />
         <span className="text-sm text-orangeAccent font-medium">
-          (сlick on a hero's name to see details)
+          (click on a hero&apos;s name to see details)
         </span>
       </h1>
       <div className="flex flex-col gap-5">

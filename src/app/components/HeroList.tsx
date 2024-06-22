@@ -51,11 +51,11 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
     }
 
     fetchHeroes();
-  }, [page]);
+  }, [page, error]);
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center min-h-80">
         <RotatingLines
           visible={true}
           width="96"
@@ -71,7 +71,7 @@ const HeroList: React.FC<HeroListProps> = ({ onSelectHero }) => {
   const pageCount = Math.ceil(82 / 10);
 
   return (
-    <div className="flex flex-col gap-10 justify-center items-center">
+    <div className="flex flex-col gap-10 justify-center items-center min-h-80">
       <ul className="grid grid-cols-2 gap-x-10 gap-y-4">
         {Boolean(heroes?.length) &&
           heroes.map((hero, idx) => (
