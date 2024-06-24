@@ -1,12 +1,13 @@
 import { FC } from "react";
 import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+import PrevIcon from "../../assets/icons/prev.svg";
+import NextIcon from "../../assets/icons/next.svg";
 
 const DEFAULT_PAGE_CLASSNAME = "text-lg";
 const DEFAULT_PAGE_LINK_CLASSNAME =
   "px-3 py-2 border border-opacity-50 rounded-lg hover:bg-white hover:text-orangeAccent hover:border-orangeAccent hover:opacity-100";
-const DEFAULT_DISABLED_LINK_CLASSNAME =
-  "px-3 py-2 text-lg border border-opacity-50 rounded-lg hover:bg-white hover:text-orangeAccent hover:border-orangeAccent";
-const DEFAULT_DISABLED_NAV_LINK_CLASSNAME = "opacity-50 pointer-events-none";
+const DEFAULT_DISABLED_LINK_CLASSNAME = "px-2 py-2";
+const DEFAULT_DISABLED_NAV_LINK_CLASSNAME = "opacity-30 pointer-events-none";
 
 interface Props {
   page: number;
@@ -19,8 +20,8 @@ interface Props {
 export const Pagination: FC<Props> = ({
   page,
   pageCount,
-  pageRangeDisplayed = 5,
-  marginPagesDisplayed = 3,
+  pageRangeDisplayed = 3,
+  marginPagesDisplayed = 0,
   setPage,
 }) => {
   const currentPage = page - 1;
@@ -30,7 +31,7 @@ export const Pagination: FC<Props> = ({
 
   return (
     <ReactPaginate
-      containerClassName="flex items-center gap-3"
+      containerClassName="flex items-center gap-2"
       pageClassName={DEFAULT_PAGE_CLASSNAME}
       pageLinkClassName={DEFAULT_PAGE_LINK_CLASSNAME}
       breakClassName={DEFAULT_PAGE_CLASSNAME}
@@ -45,8 +46,8 @@ export const Pagination: FC<Props> = ({
       pageRangeDisplayed={pageRangeDisplayed}
       marginPagesDisplayed={marginPagesDisplayed}
       onPageChange={onPageChange}
-      previousLabel={"prev"}
-      nextLabel={"next"}
+      previousLabel={<PrevIcon width="26" height="26" />}
+      nextLabel={<NextIcon width="26" height="26" />}
     />
   );
 };
